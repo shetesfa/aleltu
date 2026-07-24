@@ -1,0 +1,31 @@
+# .htaccess - FIXED for Aleltu Plesk Server
+# Upload this as .htaccess to your /aleltu/ folder
+
+Options -Indexes
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Allow direct file access (images, css, js)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Remove .php extension from URLs (so /seller_pos works like /seller_pos.php)
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+</IfModule>
+
+# PHP settings to prevent 504 timeouts
+<IfModule mod_php8.c>
+    php_value max_execution_time 120
+    php_value max_input_time 120
+    php_value memory_limit 256M
+</IfModule>
+<IfModule mod_php7.c>
+    php_value max_execution_time 120
+    php_value max_input_time 120
+    php_value memory_limit 256M
+</IfModule>
